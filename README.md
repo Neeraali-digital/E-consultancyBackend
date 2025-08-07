@@ -45,9 +45,7 @@ python manage.py create_sample_data
 python manage.py runserver
 ```
 
-Or use the provided batch files:
-- `setup.bat` - Complete setup
-- `run_server.bat` - Start the server
+
 
 ## API Endpoints
 
@@ -76,15 +74,13 @@ The API is available at `http://localhost:8000/api/`
 - `/api/applications/stats/` - Application statistics
 - `/api/payments/stats/` - Payment statistics
 
-## Default Credentials
+## Default Credentials (Development Only)
 
 **Admin User:**
 - Username: `admin`
 - Password: `admin123`
 
-**Sample Students:**
-- Username: `john_doe`, Password: `password123`
-- Username: `jane_smith`, Password: `password123`
+**Note:** Change default credentials in production!
 
 ## Admin Interface
 
@@ -143,13 +139,14 @@ E-consultancyBackend/
 
 ## Production Deployment
 
-For production deployment:
-1. Set `DEBUG = False` in settings
-2. Configure proper database (PostgreSQL recommended)
-3. Set up static file serving
-4. Configure CORS for your frontend domain
-5. Use environment variables for sensitive settings
-6. Set up proper logging
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed AWS deployment instructions.
+
+### Quick Production Setup
+1. Copy `.env.example` to `.env` and configure
+2. Use `eConsultancy.settings_prod` for production
+3. Set up PostgreSQL database on AWS RDS
+4. Configure S3 for media files
+5. Deploy using AWS Elastic Beanstalk or ECS
 
 ## Support
 

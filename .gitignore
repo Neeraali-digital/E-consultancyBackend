@@ -42,6 +42,18 @@ Thumbs.db
 *.swp
 *.swo
 
+# Production
+.env
+*.pem
+*.key
+
+# AWS
+.aws/
+*.zip
+
+# Docker
+.dockerignore
+
 # Coverage
 htmlcov/
 .coverage
