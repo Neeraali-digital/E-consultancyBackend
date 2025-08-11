@@ -1,9 +1,28 @@
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
 *.pyo
 *.pyd
 *.pyc
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+PYTHONPATH
 
 # Django
 *.log
@@ -12,68 +31,124 @@ __pycache__/
 *.pyo
 *.db
 *.sqlite3
+db.sqlite3
 media/
 staticfiles/
+static/
+collected_static/
 
-# VS Code
-.vscode/
-
-# Environments
+# Environment files - NEVER commit these!
 .env
+.env.*
+*.env
+.env.local
+.env.production
+.env.staging
+.env.free_tier
+.env.development
+
+# Virtual environments
 venv/
 env/
 ENV/
 .venv/
+.ENV/
+virtualenv/
 
-# OS
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+desktop.ini
 
-# Migrations
+# Migrations (keep structure, ignore cache)
 **/migrations/*.pyc
 **/migrations/__pycache__/
 
-# Database
+# Database files
 *.sqlite3
 *.db
+db.sqlite3
+*.sql
 
-# Others
+# Backup and temporary files
 *.bak
-*.swp
-*.swo
+*.backup
+*.old
+*.tmp
+*.temp
 
-# Production
-.env
+# Security sensitive files
 *.pem
 *.key
+*.crt
+*.cert
+*.p12
+*.pfx
+secrets.json
+credentials.json
 
-# AWS
+# AWS and Cloud
 .aws/
 *.zip
+*.tar.gz
+*.rar
+*.7z
 
 # Docker
 .dockerignore
+docker-compose.override.yml
 
-# Coverage
+# Testing and Coverage
 htmlcov/
 .coverage
-.tox/
 .coverage.*
 .cache
+.tox/
+.pytest_cache/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
 
-# Jupyter
+# Jupyter Notebook
 .ipynb_checkpoints
 
-# Pip
+# Package managers
 pip-log.txt
 pip-delete-this-directory.txt
+Pipfile.lock
 
-# Test
-.pytest_cache/
-
-# MyPy
+# Type checking
 .mypy_cache/
 .dmypy.json
-
-# Pyre
+dmypy.json
 .pyre/
+
+# Profiling
+.prof
+
+# Logs
+*.log
+logs/
+
+# Local configuration
+local_settings.py
+settings_local.py
+config.local.json
