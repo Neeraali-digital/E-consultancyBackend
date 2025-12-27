@@ -47,9 +47,64 @@ def api_schema(request):
             "/api/": {
                 "get": {"tags": ["API Root"], "summary": "API Root", "description": "Get API information and available endpoints", "responses": {"200": {"description": "API information"}}}
             },
+
             "/api/users/": {
                 "get": {"tags": ["Users"], "summary": "List Users", "description": "Get all users with pagination and search", "responses": {"200": {"description": "List of users"}}},
-                "post": {"tags": ["Users"], "summary": "Create User", "description": "Create a new user account", "responses": {"201": {"description": "User created"}}}
+                "post": {
+                    "tags": ["Users"], 
+                    "summary": "Create User", 
+                    "description": "Create a new user account",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "username": {"type": "string"},
+                                        "email": {"type": "string"},
+                                        "password": {"type": "string"},
+                                        "first_name": {"type": "string"},
+                                        "last_name": {"type": "string"},
+                                        "phone": {"type": "string"},
+                                        "address": {"type": "string"},
+                                        "role_id": {"type": "integer"}
+                                    },
+                                    "required": ["username", "email", "password"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {"201": {"description": "User created"}}
+                }
+            },
+            "/api/users/admin/": {
+                "post": {
+                    "tags": ["Users"], 
+                    "summary": "Create Admin User", 
+                    "description": "Create a new admin user account (staff access)",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "username": {"type": "string"},
+                                        "email": {"type": "string"},
+                                        "password": {"type": "string"},
+                                        "first_name": {"type": "string"},
+                                        "last_name": {"type": "string"},
+                                        "phone": {"type": "string"},
+                                        "address": {"type": "string"}
+                                    },
+                                    "required": ["username", "email", "password"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {"201": {"description": "Admin user created"}}
+                }
             },
             "/api/users/{id}/": {
                 "get": {"tags": ["Users"], "summary": "Get User", "description": "Get specific user details", "responses": {"200": {"description": "User details"}}},
@@ -61,17 +116,86 @@ def api_schema(request):
                 "post": {"tags": ["Users"], "summary": "Create Role", "description": "Create a new user role", "responses": {"201": {"description": "Role created"}}}
             },
             "/api/auth/login/": {
-                "post": {"tags": ["Authentication"], "summary": "User Login", "description": "Authenticate user and get token", "responses": {"200": {"description": "Login successful with token"}}}
+                "post": {
+                    "tags": ["Authentication"], 
+                    "summary": "User Login", 
+                    "description": "Authenticate user and get token",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "username": {"type": "string"},
+                                        "password": {"type": "string"}
+                                    },
+                                    "required": ["username", "password"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {"200": {"description": "Login successful with token"}}
+                }
             },
             "/api/auth/register/": {
-                "post": {"tags": ["Authentication"], "summary": "User Registration", "description": "Register new user account", "responses": {"201": {"description": "User registered with token"}}}
+                "post": {
+                    "tags": ["Authentication"], 
+                    "summary": "User Registration", 
+                    "description": "Register new user account",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "username": {"type": "string"},
+                                        "email": {"type": "string"},
+                                        "password": {"type": "string"},
+                                        "first_name": {"type": "string"},
+                                        "last_name": {"type": "string"},
+                                        "phone": {"type": "string"},
+                                        "address": {"type": "string"},
+                                        "role_id": {"type": "integer"}
+                                    },
+                                    "required": ["username", "email", "password"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {"201": {"description": "User registered with token"}}
+                }
             },
             "/api/auth/logout/": {
                 "post": {"tags": ["Authentication"], "summary": "User Logout", "description": "Logout and invalidate token", "responses": {"200": {"description": "Logout successful"}}}
             },
             "/api/students/": {
                 "get": {"tags": ["Students"], "summary": "List Students", "description": "Get all student profiles with search", "responses": {"200": {"description": "List of students"}}},
-                "post": {"tags": ["Students"], "summary": "Create Student", "description": "Create new student profile", "responses": {"201": {"description": "Student created"}}}
+                "post": {
+                    "tags": ["Students"], 
+                    "summary": "Create Student", 
+                    "description": "Create new student profile",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "user_id": {"type": "integer"},
+                                        "date_of_birth": {"type": "string", "format": "date"},
+                                        "nationality": {"type": "string"},
+                                        "guardian_name": {"type": "string"},
+                                        "guardian_contact": {"type": "string"}
+                                    },
+                                    "required": ["user_id"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {"201": {"description": "Student created"}}
+                }
             },
             "/api/students/{id}/": {
                 "get": {"tags": ["Students"], "summary": "Get Student", "description": "Get specific student details", "responses": {"200": {"description": "Student details"}}},
@@ -83,7 +207,37 @@ def api_schema(request):
             },
             "/api/colleges/": {
                 "get": {"tags": ["Colleges"], "summary": "List Colleges", "description": "Get all colleges with search by name/location", "responses": {"200": {"description": "List of colleges"}}},
-                "post": {"tags": ["Colleges"], "summary": "Create College", "description": "Create new college", "responses": {"201": {"description": "College created"}}}
+                "post": {
+                    "tags": ["Colleges"], 
+                    "summary": "Create College", 
+                    "description": "Create new college",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {"type": "string"},
+                                        "short_name": {"type": "string"},
+                                        "location": {"type": "string"},
+                                        "type": {"type": "string"},
+                                        "established": {"type": "string"},
+                                        "ranking": {"type": "integer"},
+                                        "rating": {"type": "number"},
+                                        "website": {"type": "string"},
+                                        "email": {"type": "string"},
+                                        "phone": {"type": "string"},
+                                        "description": {"type": "string"},
+                                        "image": {"type": "string"}
+                                    },
+                                    "required": ["name"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {"201": {"description": "College created"}}
+                }
             },
             "/api/colleges/{id}/": {
                 "get": {"tags": ["Colleges"], "summary": "Get College", "description": "Get specific college details", "responses": {"200": {"description": "College details"}}},
@@ -95,7 +249,35 @@ def api_schema(request):
             },
             "/api/courses/": {
                 "get": {"tags": ["Courses"], "summary": "List Courses", "description": "Get all courses with search by name/code", "responses": {"200": {"description": "List of courses"}}},
-                "post": {"tags": ["Courses"], "summary": "Create Course", "description": "Create new course", "responses": {"201": {"description": "Course created"}}}
+                "post": {
+                    "tags": ["Courses"], 
+                    "summary": "Create Course", 
+                    "description": "Create new course",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {"type": "string"},
+                                        "code": {"type": "string"},
+                                        "category": {"type": "string"},
+                                        "duration": {"type": "string"},
+                                        "degree_type": {"type": "string"},
+                                        "description": {"type": "string"},
+                                        "eligibility": {"type": "string"},
+                                        "fee": {"type": "string"},
+                                        "college_id": {"type": "integer"},
+                                        "image": {"type": "string"}
+                                    },
+                                    "required": ["name", "code", "college_id"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {"201": {"description": "Course created"}}
+                }
             },
             "/api/courses/{id}/": {
                 "get": {"tags": ["Courses"], "summary": "Get Course", "description": "Get specific course details", "responses": {"200": {"description": "Course details"}}},
@@ -110,7 +292,32 @@ def api_schema(request):
             },
             "/api/blogs/": {
                 "get": {"tags": ["Content Management"], "summary": "List Blogs", "description": "Get all blog posts with search", "responses": {"200": {"description": "List of blogs"}}},
-                "post": {"tags": ["Content Management"], "summary": "Create Blog", "description": "Create new blog post", "responses": {"201": {"description": "Blog created"}}}
+                "post": {
+                    "tags": ["Content Management"], 
+                    "summary": "Create Blog", 
+                    "description": "Create new blog post",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "title": {"type": "string"},
+                                        "slug": {"type": "string"},
+                                        "content": {"type": "string"},
+                                        "excerpt": {"type": "string"},
+                                        "featured_image": {"type": "string"},
+                                        "status": {"type": "string"},
+                                        "author_id": {"type": "integer"}
+                                    },
+                                    "required": ["title", "content"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {"201": {"description": "Blog created"}}
+                }
             },
             "/api/blogs/{id}/": {
                 "get": {"tags": ["Content Management"], "summary": "Get Blog", "description": "Get specific blog post", "responses": {"200": {"description": "Blog details"}}},
@@ -119,7 +326,31 @@ def api_schema(request):
             },
             "/api/reviews/": {
                 "get": {"tags": ["Content Management"], "summary": "List Reviews", "description": "Get all reviews with search", "responses": {"200": {"description": "List of reviews"}}},
-                "post": {"tags": ["Content Management"], "summary": "Create Review", "description": "Create new review", "responses": {"201": {"description": "Review created"}}}
+                "post": {
+                    "tags": ["Content Management"], 
+                    "summary": "Create Review", 
+                    "description": "Create new review",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "student_id": {"type": "integer"},
+                                        "college_id": {"type": "integer"},
+                                        "course_id": {"type": "integer"},
+                                        "rating": {"type": "number"},
+                                        "title": {"type": "string"},
+                                        "content": {"type": "string"}
+                                    },
+                                    "required": ["rating", "content"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {"201": {"description": "Review created"}}
+                }
             },
             "/api/reviews/{id}/": {
                 "get": {"tags": ["Content Management"], "summary": "Get Review", "description": "Get specific review", "responses": {"200": {"description": "Review details"}}},
@@ -128,7 +359,29 @@ def api_schema(request):
             },
             "/api/applications/": {
                 "get": {"tags": ["Applications"], "summary": "List Applications", "description": "Get all student applications with search", "responses": {"200": {"description": "List of applications"}}},
-                "post": {"tags": ["Applications"], "summary": "Create Application", "description": "Submit new application", "responses": {"201": {"description": "Application created"}}}
+                "post": {
+                    "tags": ["Applications"], 
+                    "summary": "Create Application", 
+                    "description": "Submit new application",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "student_id": {"type": "integer"},
+                                        "course_id": {"type": "integer"},
+                                        "status": {"type": "string"},
+                                        "remarks": {"type": "string"}
+                                    },
+                                    "required": ["student_id", "course_id"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {"201": {"description": "Application created"}}
+                }
             },
             "/api/applications/{id}/": {
                 "get": {"tags": ["Applications"], "summary": "Get Application", "description": "Get specific application details", "responses": {"200": {"description": "Application details"}}},
@@ -140,7 +393,30 @@ def api_schema(request):
             },
             "/api/payments/": {
                 "get": {"tags": ["Payments"], "summary": "List Payments", "description": "Get all payment records", "responses": {"200": {"description": "List of payments"}}},
-                "post": {"tags": ["Payments"], "summary": "Create Payment", "description": "Process new payment", "responses": {"201": {"description": "Payment created"}}}
+                "post": {
+                    "tags": ["Payments"], 
+                    "summary": "Create Payment", 
+                    "description": "Process new payment",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "application_id": {"type": "integer"},
+                                        "amount": {"type": "string"},
+                                        "payment_method": {"type": "string"},
+                                        "transaction_id": {"type": "string"},
+                                        "status": {"type": "string"}
+                                    },
+                                    "required": ["application_id", "amount"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {"201": {"description": "Payment created"}}
+                }
             },
             "/api/payments/{id}/": {
                 "get": {"tags": ["Payments"], "summary": "Get Payment", "description": "Get specific payment details", "responses": {"200": {"description": "Payment details"}}},
@@ -152,7 +428,32 @@ def api_schema(request):
             },
             "/api/advertisements/": {
                 "get": {"tags": ["Advertisements"], "summary": "List Advertisements", "description": "Get all advertisements", "responses": {"200": {"description": "List of advertisements"}}},
-                "post": {"tags": ["Advertisements"], "summary": "Create Advertisement", "description": "Create new advertisement", "responses": {"201": {"description": "Advertisement created"}}}
+                "post": {
+                    "tags": ["Advertisements"], 
+                    "summary": "Create Advertisement", 
+                    "description": "Create new advertisement",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "title": {"type": "string"},
+                                        "subtitle": {"type": "string"},
+                                        "description": {"type": "string"},
+                                        "button_text": {"type": "string"},
+                                        "image": {"type": "string"},
+                                        "is_active": {"type": "boolean"},
+                                        "order": {"type": "integer"}
+                                    },
+                                    "required": ["title"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {"201": {"description": "Advertisement created"}}
+                }
             },
             "/api/advertisements/{id}/": {
                 "get": {"tags": ["Advertisements"], "summary": "Get Advertisement", "description": "Get specific advertisement", "responses": {"200": {"description": "Advertisement details"}}},

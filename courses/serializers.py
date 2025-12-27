@@ -2,11 +2,11 @@ from rest_framework import serializers
 from .models import Course, College, Blog, Review
 
 class CollegeSerializer(serializers.ModelSerializer):
-    courses = serializers.StringRelatedField(many=True, read_only=True)
+    courses = serializers.JSONField()
     
     class Meta:
         model = College
-        fields = ['id', 'name', 'short_name', 'location', 'type', 'established', 'ranking', 'institution_type', 'affiliated', 'courses', 'rating', 'status', 'description', 'website', 'email', 'phone', 'image', 'created_at', 'updated_at']
+        fields = ['id', 'name', 'short_name', 'location', 'type', 'established', 'ranking', 'institution_type', 'affiliated', 'courses', 'rating', 'status', 'description', 'about_text', 'quick_stats', 'website', 'email', 'phone', 'image', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 class CourseSerializer(serializers.ModelSerializer):

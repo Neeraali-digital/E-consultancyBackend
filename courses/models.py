@@ -37,6 +37,8 @@ class College(models.Model):
     email = models.EmailField(blank=True)
     phone = models.CharField(max_length=20, blank=True)
     image = models.ImageField(upload_to='colleges/', blank=True)
+    about_text = models.TextField(blank=True, help_text="Detailed description for 'About' section")
+    quick_stats = models.JSONField(default=dict, blank=True, help_text="JSON object for quick stats e.g., {'campus_size': '100 acres', 'total_students': '5000'}")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

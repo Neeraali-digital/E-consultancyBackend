@@ -6,11 +6,16 @@ from .models import Course, College, Blog, Review
 from .serializers import CourseSerializer, CollegeSerializer, BlogSerializer, ReviewSerializer
 
 class CollegeListCreateView(generics.ListCreateAPIView):
-    queryset = College.objects.all()
     serializer_class = CollegeSerializer
     permission_classes = [AllowAny]
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'location']
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return College.objects.all()
+        return College.objects.filter(status='active')
 
 class CollegeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = College.objects.all()
