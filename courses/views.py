@@ -10,6 +10,7 @@ class CollegeListCreateView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'location']
+    pagination_class = None
 
     def get_queryset(self):
         user = self.request.user

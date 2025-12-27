@@ -1,8 +1,18 @@
 from rest_framework import serializers
 from .models import Course, College, Blog, Review
 
+class SimpleCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['id', 'name', 'code', 'category', 'duration', 'degree_type', 'image']
+
+class SimpleCollegeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = College
+        fields = ['id', 'name', 'short_name', 'location', 'type', 'image']
+
 class CollegeSerializer(serializers.ModelSerializer):
-    courses = serializers.JSONField()
+    courses = SimpleCourseSerializer(many=True, read_only=True)
     
     class Meta:
         model = College
@@ -10,12 +20,18 @@ class CollegeSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 class CourseSerializer(serializers.ModelSerializer):
-    college = CollegeSerializer(read_only=True)
-    college_id = serializers.IntegerField(write_only=True, required=False)
+    colleges = SimpleCollegeSerializer(many=True, read_only=True)
+    college_ids = serializers.PrimaryKeyRelatedField(
+        many=True, 
+        queryset=College.objects.all(), 
+        write_only=True, 
+        source='colleges',
+        required=False
+    )
     
     class Meta:
         model = Course
-        fields = ['id', 'name', 'code', 'category', 'duration', 'degree_type', 'description', 'eligibility', 'image', 'status', 'college', 'college_id', 'created_at', 'updated_at']
+        fields = ['id', 'name', 'code', 'category', 'duration', 'degree_type', 'description', 'eligibility', 'image', 'status', 'colleges', 'college_ids', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 class BlogSerializer(serializers.ModelSerializer):

@@ -29,7 +29,7 @@ class College(models.Model):
     ranking = models.PositiveIntegerField(null=True, blank=True)
     institution_type = models.CharField(max_length=20, choices=INSTITUTION_TYPE_CHOICES, blank=True)
     affiliated = models.CharField(max_length=200, blank=True)
-    courses = models.JSONField(default=list, blank=True)
+    # courses field removed as per requirement
     rating = models.DecimalField(max_digits=3, decimal_places=1, default=0)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     description = models.TextField(blank=True)
@@ -76,7 +76,7 @@ class Course(models.Model):
     image = models.ImageField(upload_to='courses/', blank=True)
     # Fee fields removed
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
-    college = models.ForeignKey(College, on_delete=models.CASCADE, related_name='course_list', null=True, blank=True)
+    colleges = models.ManyToManyField(College, related_name='courses', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
