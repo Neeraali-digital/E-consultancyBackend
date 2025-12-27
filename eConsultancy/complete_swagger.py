@@ -40,7 +40,7 @@ def complete_api_schema(request):
             }
         },
         "servers": [
-            {"url": "http://127.0.0.1:8000", "description": "Development server"}
+            {"url": ".", "description": "Development server"}
         ],
         "components": {
             "securitySchemes": {
