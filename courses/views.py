@@ -29,6 +29,7 @@ class CourseListCreateView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'code']
+    
     pagination_class = None
 
 class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
