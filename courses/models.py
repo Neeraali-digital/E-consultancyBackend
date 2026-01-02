@@ -53,6 +53,8 @@ class Course(models.Model):
         ('arts', 'Arts'),
         ('law', 'Law'),
         ('pharmacy', 'Pharmacy'),
+        ('agriculture', 'Agriculture'),
+        ('architecture', 'Architecture'),
     ]
     DEGREE_CHOICES = [
         ('undergraduate', 'Undergraduate'),
