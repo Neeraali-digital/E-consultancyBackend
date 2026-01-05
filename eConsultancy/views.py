@@ -6,12 +6,18 @@ from students.models import Student
 from courses.models import Course, College
 from applications.models import Application
 from payments.models import Payment
+from enquiries.models import StudentInquiry
 from django.db.models import Sum
+from django.utils import timezone
+from datetime import timedelta
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def dashboard_stats(request):
     """Get overall dashboard statistics"""
+    
+    now = timezone.now()
+    month_ago = now - timedelta(days=30)
     
     stats = {
         'users': {
@@ -33,6 +39,10 @@ def dashboard_stats(request):
             'total': Application.objects.count(),
             'pending': Application.objects.filter(status='pending').count(),
             'approved': Application.objects.filter(status='approved').count(),
+        },
+        'inquiries': {
+            'total': StudentInquiry.objects.count(),
+            'today': StudentInquiry.objects.filter(created_at__date=now.date()).count(),
         },
         'payments': {
             'total': Payment.objects.count(),
