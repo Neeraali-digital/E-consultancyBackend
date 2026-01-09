@@ -7,7 +7,7 @@ class StudentInquiry(models.Model):
     )
 
     name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
+    email = models.EmailField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=15)
     course_of_interest = models.CharField(max_length=200, blank=True, null=True)
     message = models.TextField(blank=True, null=True)
